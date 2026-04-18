@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Юбилей — Мария Константиновна</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--text-color:#fff;--accent:#a0d8ef;--bg:#0a0a1a}
+html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text-color)}
+body{transition:color .6s}
+
+/* Custom Background */
+#customBg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background-size:cover;background-position:center;background-repeat:no-repeat;display:none}
+#customBg::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(5,5,16,.55)}
+
+/* Aurora Background */
+.aurora-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:linear-gradient(180deg,#050510 0%,#0a0a2e 40%,#0d1b2a 100%);overflow:hidden;transition:opacity .8s}
+.aurora-bg.hidden{opacity:0;pointer-events:none}
+.aurora-layer{position:absolute;top:-20%;left:-20%;width:140%;height:140%;opacity:.35;filter:blur(60px);mix-blend-mode:screen}
+.aurora-1{background:radial-gradient(ellipse 80% 40% at 30% 30%,#00e5ff 0%,#7c4dff 50%,transparent 70%);animation:auroraMove1 12s ease-in-out infinite alternate}
+.aurora-2{background:radial-gradient(ellipse 70% 35% at 65% 25%,#1de9b6 0%,#2979ff 50%,transparent 65%);animation:auroraMove2 15s ease-in-out infinite alternate}
+.aurora-3{background:radial-gradient(ellipse 90% 30% at 50% 40%,#b388ff 0%,#00bcd4 50%,transparent 70%);animation:auroraMove3 10s ease-in-out infinite alternate}
+.aurora-4{background:radial-gradient(ellipse 60% 50% at 40% 60%,#00e676 0%,#651fff 40%,transparent 65%);animation:auroraMove4 18s ease-in-out infinite alternate;opacity:.2}
+@keyframes auroraMove1{0%{transform:translate(0,0) scaleX(1) rotate(0deg)}33%{transform:translate(5%,-3%) scaleX(1.1) rotate(1deg)}66%{transform:translate(-3%,4%) scaleX(.95) rotate(-1deg)}100%{transform:translate(4%,2%) scaleX(1.05) rotate(.5deg)}}
+@keyframes auroraMove2{0%{transform:translate(0,0) scaleX(1) rotate(0deg)}50%{transform:translate(-6%,3%) scaleX(1.15) rotate(-2deg)}100%{transform:translate(3%,-4%) scaleX(.9) rotate(1deg)}}
+@keyframes auroraMove3{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(4%,5%) rotate(2deg)}100%{transform:translate(-5%,-2%) rotate(-1deg)}}
+@keyframes auroraMove4{0%{transform:translate(0,0) scaleX(1)}50%{transform:translate(-8%,-3%) scaleX(1.2)}100%{transform:translate(6%,4%) scaleX(.85)}}
+
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;transition:opacity .8s}
+.stars.hidden{opacity:0}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle var(--dur) ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.2;transform:scale(1)}100%{opacity:.8;transform:scale(1.3)}}
+
+/* Envelope */
+#envelope{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(5,5,16,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);cursor:pointer;transition:opacity 1.2s ease,transform 1.2s ease,visibility 1.2s}
+#envelope.opened{opacity:0;transform:scale(1.05);visibility:hidden;pointer-events:none}
+.envelope-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(120,200,255,.15) 0%,transparent 70%);animation:envelopePulse 3s ease-in-out infinite;pointer-events:none}
+@keyframes envelopePulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.3);opacity:.8}}
+.envelope-text{position:relative;z-index:2;text-align:center;animation:envelopeFade 2s ease forwards}
+@keyframes envelopeFade{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+.envelope-name{font-size:clamp(1.4rem,5vw,2.4rem);font-weight:300;letter-spacing:.08em;color:var(--text-color);text-shadow:0 0 30px rgba(160,216,239,.5);margin-bottom:.3em}
+.envelope-age{font-size:clamp(4rem,15vw,8rem);font-weight:200;background:linear-gradient(135deg,#a0d8ef,#b388ff,#1de9b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 20px rgba(160,216,239,.4));line-height:1}
+.envelope-hint{margin-top:2em;font-size:.85rem;opacity:.5;letter-spacing:.1em;animation:hintPulse 2.5s ease-in-out infinite}
+@keyframes hintPulse{0%,100%{opacity:.3}50%{opacity:.7}}
+
+/* Main Content */
+#mainContent{position:relative;z-index:10;max-width:700px;margin:0 auto;padding:2rem 1.5rem 4rem;opacity:0;transition:opacity 1.5s ease .8s}
+#mainContent.visible{opacity:1}
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.fade-in.show{opacity:1;transform:translateY(0)}
+.section{text-align:center;margin-bottom:2.5rem}
+.section-title{font-size:clamp(.75rem,2.5vw,.9rem);text-transform:uppercase;letter-spacing:.25em;opacity:.5;margin-bottom:.8rem;font-weight:400}
+.section-text{font-size:clamp(1rem,3.5vw,1.3rem);font-weight:300;line-height:1.7;letter-spacing:.02em}
+.section-text.name-highlight{font-size:clamp(1.6rem,6vw,2.8rem);font-weight:200;letter-spacing:.06em;background:linear-gradient(135deg,#fff,#a0d8ef);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Timer */
+.timer-grid{display:flex;justify-content:center;gap:clamp(.8rem,3vw,1.5rem);flex-wrap:wrap}
+.timer-block{text-align:center;min-width:70px}
+.timer-num{font-size:clamp(2rem,8vw,3.5rem);font-weight:200;color:var(--text-color);text-shadow:0 0 20px rgba(160,216,239,.3);line-height:1}
+.timer-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;opacity:.4;margin-top:.4em}
+
+.yakut-text{font-size:clamp(.85rem,2.8vw,1.05rem);font-weight:300;line-height:1.9;opacity:.85;max-width:600px;margin:0 auto;font-style:italic}
+
+/* Gallery */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.8rem;margin-top:1rem}
+.gallery-item{aspect-ratio:1;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:.75rem;opacity:.4;position:relative;transition:opacity .3s}
+.gallery-item img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
+.gallery-item.has-photo{opacity:1}
+
+/* Buttons */
+.btn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-top:1.5rem}
+.btn{display:inline-flex;align-items:center;gap:.5em;padding:.9em 1.8em;border-radius:50px;background:rgba(255,255,255,.08);color:var(--text-color);text-decoration:none;font-size:.95rem;font-weight:400;letter-spacing:.04em;transition:background .3s,transform .2s;cursor:pointer;border:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.btn:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
+
+/* Music Button */
+#musicBtn{position:fixed;top:1rem;right:1rem;z-index:200;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:none;color:var(--text-color);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .3s;opacity:0;pointer-events:none}
+#musicBtn.visible{opacity:1;pointer-events:auto}
+#musicBtn:hover{background:rgba(255,255,255,.15)}
+#musicBtn svg{width:20px;height:20px;fill:currentColor}
+
+/* Admin Panel */
+#adminOverlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:500;background:rgba(5,5,16,.92);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:2rem 1rem}
+#adminOverlay.active{display:flex}
+.admin-box{width:100%;max-width:500px;padding:2rem;border-radius:20px;background:rgba(255,255,255,.05)}
+.admin-box h2{text-align:center;font-weight:300;font-size:1.3rem;margin-bottom:1.5rem;letter-spacing:.1em}
+.admin-field{margin-bottom:1.2rem}
+.admin-field label{display:block;font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;opacity:.5;margin-bottom:.4em}
+.admin-field input,.admin-field textarea{width:100%;padding:.7em 1em;border-radius:10px;background:rgba(255,255,255,.07);border:none;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:background .3s}
+.admin-field input:focus,.admin-field textarea:focus{background:rgba(255,255,255,.12)}
+.admin-field textarea{resize:vertical;min-height:80px}
+.admin-colors{display:flex;gap:.6rem;margin-top:.3em}
+.color-swatch{width:32px;height:32px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .3s,transform .2s}
+.color-swatch:hover{transform:scale(1.15)}
+.color-swatch.active{border-color:#fff}
+
+.upload-zone{margin-top:.5em;border:1.5px dashed rgba(255,255,255,.15);border-radius:12px;padding:1.2rem;text-align:center;transition:border-color .3s,background .3s;cursor:pointer;position:relative}
+.upload-zone:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.03)}
+.upload-zone p{font-size:.8rem;opacity:.5;margin-bottom:.5em}
+.upload-zone .icon{font-size:1.5rem;margin-bottom:.3em}
+
+.photo-list{margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.5rem}
+.photo-thumb{width:70px;height:70px;border-radius:8px;overflow:hidden;position:relative}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-thumb .del{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(255,60,60,.8);border:none;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.photo-thumb .del:hover{background:rgba(255,60,60,1)}
+
+.audio-item{display:flex;align-items:center;gap:.8rem;padding:.6em .8em;border-radius:10px;background:rgba(255,255,255,.05);margin-top:.5em}
+.audio-item span{flex:1;font-size:.85rem;opacity:.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.audio-item button{padding:.4em .8em;border-radius:8px;border:none;font-size:.8rem;cursor:pointer}
+.btn-del{background:rgba(255,60,60,.2);color:#ff6b6b}
+.btn-del:hover{background:rgba(255,60,60,.3)}
+
+.bg-preview{margin-top:.5em;width:100%;height:100px;border-radius:10px;overflow:hidden;position:relative}
+.bg-preview img{width:100%;height:100%;object-fit:cover}
+.bg-preview .del-overlay{position:absolute;top:6px;right:6px;padding:.4em .8em;border-radius:8px;border:none;background:rgba(255,60,60,.8);color:#fff;font-size:.8rem;cursor:pointer}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.5em 0}
+.toggle-row span{font-size:.85rem;opacity:.7}
+.toggle{width:44px;height:24px;border-radius:12px;background:rgba(255,255,255,.15);border:none;cursor:pointer;position:relative;transition:background .3s}
+.toggle.on{background:rgba(160,216,239,.4)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .3s}
+.toggle.on::after{transform:translateX(20px)}
+
+.admin-actions{display:flex;gap:.8rem;margin-top:1.5rem}
+.admin-actions button{flex:1;padding:.8em;border-radius:12px;border:none;font-size:.9rem;cursor:pointer;font-family:inherit}
+.admin-save{background:rgba(160,216,239,.2);color:#a0d8ef}.admin-save:hover{background:rgba(160,216,239,.3)}
+.admin-close{background:rgba(255,255,255,.08);color:#fff}.admin-close:hover{background:rgba(255,255,255,.12)}
+.admin-divider{height:1px;background:rgba(255,255,255,.08);margin:1.5rem 0}
+
+/* Toast Notification */
+#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(20,20,40,.9);color:#fff;padding:.8em 1.5em;border-radius:50px;opacity:0;pointer-events:none;transition:all .4s ease;z-index:600;font-size:.9rem;backdrop-filter:blur(10px)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:480px){.gallery{grid-template-columns:repeat(2,1fr)}.btn{padding:.8em 1.4em;font-size:.85rem}.timer-block{min-width:60px}.admin-box{padding:1.5rem}}
+@media(min-width:768px){.gallery{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<div id="customBg"></div>
+<div class="aurora-bg" id="auroraBg">
+  <div class="aurora-layer aurora-1"></div><div class="aurora-layer aurora-2"></div><div class="aurora-layer aurora-3"></div><div class="aurora-layer aurora-4"></div>
+</div>
+<div class="stars" id="stars"></div>
+
+<div id="envelope">
+  <div class="envelope-glow"></div>
+  <div class="envelope-text">
+    <div class="envelope-name" id="envName">Мария Константиновна</div>
+    <div class="envelope-age">75</div>
+    <div class="envelope-hint">нажмите, чтобы открыть</div>
+  </div>
+</div>
+
+<button id="musicBtn" title="Музыка вкл/выкл">
+  <svg id="musicIcon" viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+</button>
+
+<div id="mainContent">
+  <div class="section fade-in"><div class="section-title">Юбилей</div><div class="section-text name-highlight" id="displayName">Мария Константиновна</div><div style="font-size:clamp(3rem,12vw,6rem);font-weight:200;margin-top:.2em;background:linear-gradient(135deg,#a0d8ef,#b388ff,#1de9b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">75</div></div>
+  <div class="section fade-in"><div class="section-title">До торжества осталось</div><div class="timer-grid"><div class="timer-block"><div class="timer-num" id="tDays">00</div><div class="timer-label">дней</div></div><div class="timer-block"><div class="timer-num" id="tHours">00</div><div class="timer-label">часов</div></div><div class="timer-block"><div class="timer-num" id="tMins">00</div><div class="timer-label">минут</div></div><div class="timer-block"><div class="timer-num" id="tSecs">00</div><div class="timer-label">секунд</div></div></div></div>
+  <div class="section fade-in"><div class="section-title">Дата и время</div><div class="section-text" id="displayDate">Пятница, 24 апреля 2026, 13:00</div><div style="opacity:.4;margin-top:.2em;font-size:.85rem">г. Якутск</div></div>
+  <div class="section fade-in"><div class="section-title">Место проведения</div><div class="section-text" id="displayAddress">г. Якутск, ул. Аржакова 4/3, ресторан «Застава», 2 этаж</div></div>
+  <div class="section fade-in"><div class="section-title">Уруулаах тыл</div><div class="yakut-text" id="displayYakut">Кунду доготторум однокурсниктарбын: Трофим, Маша, Люба, Уля, Тамара, Паша. Уоруулээх юбилейбар кундуу алдьыт буолан уоруубун уллэстэн кэпсэтэн ипсэтэн кэрэхсээн кэлэн кэрэ куммэр кэлэргитин кэтэьэбин</div></div>
+  <div class="section fade-in"><div class="section-title">Фотогалерея</div><div class="gallery" id="gallery"></div></div>
+  <div class="section fade-in"><div class="section-title">Связаться</div><div class="btn-row"><a class="btn" id="btnCall" href="tel:+79644252699"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.58.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.58 1 1 0 0 1-.25 1.01l-2.2 2.2z"/></svg>Позвонить</a><a class="btn" id="btnWA" href="https://wa.me/79644252699" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a><a class="btn" id="btn2GIS" href="https://2gis.ru/yakutsk/search/Улица%20Аржакова%204%2F3" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>2ГИС</a></div></div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminOverlay">
+  <div class="admin-box">
+    <h2>⚙ Настройки</h2>
+    <div class="admin-field"><label>Имя</label><input type="text" id="admName"></div>
+    <div class="admin-field"><label>Дата</label><input type="text" id="admDate"></div>
+    <div class="admin-field"><label>Адрес</label><input type="text" id="admAddress"></div>
+    <div class="admin-field"><label>Телефон</label><input type="text" id="admPhone"></div>
+    <div class="admin-field"><label>Якутский текст</label><textarea id="admYakut"></textarea></div>
+    <div class="admin-field"><label>Цвет текста</label><div class="admin-colors"><div class="color-swatch active" data-color="#ffffff" style="background:#fff"></div><div class="color-swatch" data-color="#a0d8ef" style="background:#a0d8ef"></div><div class="color-swatch" data-color="#c0c0c0" style="background:#c0c0c0"></div><div class="color-swatch" data-color="#e8d5b7" style="background:#e8d5b7"></div></div></div>
+    <div class="admin-divider"></div>
+    <div class="admin-field"><label>Фоновое изображение</label><div class="upload-zone" id="bgUploadZone"><div class="icon">🖼</div><p>Нажмите, чтобы выбрать фон</p><input type="file" id="admBgInput" accept="image/*" style="display:none"></div><div id="bgPreviewArea"></div></div>
+    <div class="toggle-row"><span>Северное сияние</span><button class="toggle on" id="toggleAurora" onclick="toggleSwitch(this)"></button></div>
+    <div class="admin-divider"></div>
+    <div class="admin-field"><label>Музыка (mp3, ogg, wav)</label><div class="upload-zone" id="musicUploadZone"><div class="icon">🎵</div><p>Нажмите, чтобы загрузить аудио</p><input type="file" id="admMusicInput" accept="audio/*" style="display:none"></div><div id="musicPreviewArea"></div></div>
+    <div class="admin-divider"></div>
+    <div class="admin-field"><label>Фотогалерея</label><div class="upload-zone" id="photoUploadZone"><div class="icon">📷</div><p>Нажмите, чтобы добавить фото</p><input type="file" id="admPhotoInput" accept="image/*" multiple style="display:none"></div><div class="photo-list" id="admPhotoList"></div></div>
+    <div class="admin-actions"><button class="admin-close" onclick="closeAdmin()">Закрыть</button><button class="admin-save" onclick="saveAdmin()">Сохранить</button></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ===== IndexedDB Helpers (for large files) ===== */
+const IDB_NAME = 'JubileeMediaDB';
+const IDB_STORE = 'media';
+function getIDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = e => e.target.result.createObjectStore(IDB_STORE);
+    req.onsuccess = e => resolve(e.target.result);
+    req.onerror = e => reject(e.target.error);
+  });
+}
+async function saveMediaDB(key, data) {
+  const db = await getIDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(IDB_STORE, 'readwrite');
+    tx.objectStore(IDB_STORE).put(data, key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+async function getMediaDB(key) {
+  const db = await getIDB();
+  return new Promise(resolve => {
+    const tx = db.transaction(IDB_STORE, 'readonly');
+    const req = tx.objectStore(IDB_STORE).get(key);
+    req.onsuccess = () => resolve(req.result || null);
+  });
+}
+async function deleteMediaDB(key) {
+  const db = await getIDB();
+  return new Promise(resolve => {
+    const tx = db.transaction(IDB_STORE, 'readwrite');
+    tx.objectStore(IDB_STORE).delete(key);
+    tx.oncomplete = () => resolve();
+  });
+}
+
+/* ===== Config (localStorage) ===== */
+const DEFAULTS = {
+  name: 'Мария Константиновна', date: 'Пятница, 24 апреля 2026, 13:00',
+  dateISO: '2026-04-24T13:00:00+09:00', address: 'г. Якутск, ул. Аржакова 4/3, ресторан «Застава», 2 этаж',
+  phone: '+79644252699', yakut: 'Кунду доготторум однокурсниктарбын: Трофим, Маша, Люба, Уля, Тамара, Паша. Уоруулээх юбилейбар кундуу алдьыт буолан уоруубун уллэстэн кэпсэтэн ипсэтэн кэрэхсээн кэлэн кэрэ куммэр кэлэргитин кэтэьэбин',
+  textColor: '#ffffff', musicName: '', showAurora: true
+};
+
+function loadConfig() {
+  try { return JSON.parse(localStorage.getItem('jubilee75')) || {...DEFAULTS}; } 
+  catch(e) { return {...DEFAULTS}; }
+}
+function saveConfig(d) {
+  const clean = {...d}; delete clean.customMusic; delete clean.customBg; delete clean.photos;
+  localStorage.setItem('jubilee75', JSON.stringify(clean));
+}
+
+async function loadAllData() {
+  const cfg = loadConfig();
+  cfg.customMusic = await getMediaDB('customMusic');
+  cfg.customBg = await getMediaDB('customBg');
+  cfg.photos = await getMediaDB('photos') || [];
+  return cfg;
+}
+
+/* ===== UI Functions ===== */
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = type==='error' ? 'rgba(200,50,50,.9)' : 'rgba(20,20,40,.9)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function applyData(d) {
+  document.getElementById('envName').textContent = d.name;
+  document.getElementById('displayName').textContent = d.name;
+  document.getElementById('displayDate').textContent = d.date;
+  document.getElementById('displayAddress').textContent = d.address;
+  document.getElementById('displayYakut').textContent = d.yakut;
+  document.documentElement.style.setProperty('--text-color', d.textColor);
+  document.getElementById('btnCall').href = 'tel:' + d.phone;
+  document.getElementById('btnWA').href = 'https://wa.me/' + d.phone.replace(/\D/g,'');
+  document.getElementById('admName').value = d.name;
+  document.getElementById('admDate').value = d.date;
+  document.getElementById('admAddress').value = d.address;
+  document.getElementById('admPhone').value = d.phone;
+  document.getElementById('admYakut').value = d.yakut;
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('active', s.dataset.color === d.textColor));
+  renderGallery(d.photos);
+
+  const bg = document.getElementById('customBg');
+  bg.style.display = d.customBg ? 'block' : 'none';
+  if(d.customBg) bg.style.backgroundImage = `url(${d.customBg})`;
+  document.getElementById('auroraBg').classList.toggle('hidden', !d.showAurora);
+  document.getElementById('stars').classList.toggle('hidden', !d.showAurora);
+  document.getElementById('toggleAurora').classList.toggle('on', d.showAurora);
+  renderMusicPreview(d.customMusic, d.musicName);
+}
+
+function renderGallery(photos) {
+  const g = document.getElementById('gallery'); g.innerHTML = '';
+  if(!photos.length) { for(let i=0;i<6;i++) g.innerHTML += `<div class="gallery-item">Фото ${i+1}</div>`; return; }
+  photos.forEach(src => { const d = document.createElement('div'); d.className='gallery-item has-photo'; d.innerHTML=`<img src="${src}" loading="lazy">`; g.appendChild(d); });
+  for(let i=photos.length;i<6;i++) { const d = document.createElement('div'); d.className='gallery-item'; d.textContent=`Фото ${i+1}`; g.appendChild(d); }
+}
+
+function renderAdminPhotos(photos) {
+  const list = document.getElementById('admPhotoList'); list.innerHTML = '';
+  photos.forEach((src,i) => { list.innerHTML += `<div class="photo-thumb"><img src="${src}"><button class="del" onclick="delPhoto(${i})">✕</button></div>`; });
+}
+function renderMusicPreview(musicData, name) {
+  const area = document.getElementById('musicPreviewArea'); area.innerHTML = '';
+  if(!musicData) { area.innerHTML = '<p style="font-size:.8rem;opacity:.4;margin-top:.5em">Синтезированная мелодия (по умолчанию)</p>'; return; }
+  area.innerHTML = `<div class="audio-item"><span>🎵 ${name||'music'}</span><button class="btn-del" onclick="delCustomMusic()">Удалить</button></div>`;
+}
+function renderBgPreview(bgData) {
+  const area = document.getElementById('bgPreviewArea'); area.innerHTML = '';
+  if(!bgData) return;
+  area.innerHTML = `<div class="bg-preview"><img src="${bgData}"><button class="del-overlay" onclick="delCustomBg()">✕ Удалить</button></div>`;
+}
+
+async function delPhoto(i) { const d = await loadAllData(); d.photos.splice(i,1); await saveMediaDB('photos', d.photos); saveConfig(d); renderAdminPhotos(d.photos); renderGallery(d.photos); showToast('Фото удалено'); }
+async function delCustomMusic() { await deleteMediaDB('customMusic'); if(musicPlaying) stopMusic(); const d = loadConfig(); d.customMusic=null; d.musicName=''; saveConfig(d); renderMusicPreview(null,''); showToast('Музыка удалена'); }
+async function delCustomBg() { await deleteMediaDB('customBg'); const d = loadConfig(); d.customBg=null; saveConfig(d); applyData(d); renderBgPreview(null); showToast('Фон удалён'); }
+
+function toggleSwitch(btn) { btn.classList.toggle('on'); }
+
+/* ===== Admin Open/Save ===== */
+let tapCount=0, tapTimer=null;
+document.addEventListener('click', e => {
+  const el = e.target.closest('#displayName, .envelope-name'); if(!el) return;
+  tapCount++; clearTimeout(tapTimer); tapTimer=setTimeout(()=>tapCount=0, 2000);
+  if(tapCount>=5){ tapCount=0; openAdmin(); }
+});
+async function openAdmin() {
+  const d = await loadAllData();
+  applyData(d); renderAdminPhotos(d.photos); renderBgPreview(d.customBg); renderMusicPreview(d.customMusic, d.musicName);
+  document.getElementById('adminOverlay').classList.add('active');
+}
+async function saveAdmin() {
+  const d = loadConfig();
+  d.name = document.getElementById('admName').value;
+  d.date = document.getElementById('admDate').value;
+  d.address = document.getElementById('admAddress').value;
+  d.phone = document.getElementById('admPhone').value;
+  d.yakut = document.getElementById('admYakut').value;
+  d.showAurora = document.getElementById('toggleAurora').classList.contains('on');
+  saveConfig(d); applyData(d); closeAdmin(); showToast('Настройки сохранены');
+}
+function closeAdmin() { document.getElementById('adminOverlay').classList.remove('active'); }
+
+/* ===== Upload Handlers ===== */
+document.getElementById('photoUploadZone').addEventListener('click', () => document.getElementById('admPhotoInput').click());
+document.getElementById('admPhotoInput').addEventListener('change', async function(e) {
+  const files = Array.from(e.target.files); if(!files.length) return;
+  showToast(`Загрузка ${files.length} фото...`);
+  const d = await loadAllData();
+  let loaded = 0;
+  files.forEach(f => {
+    const r = new FileReader();
+    r.onload = async () => { d.photos.push(r.result); loaded++; if(loaded===files.length) { await saveMediaDB('photos', d.photos); renderAdminPhotos(d.photos); renderGallery(d.photos); showToast('Фото загружены'); } };
+    r.readAsDataURL(f);
+  });
+  e.target.value='';
+});
+
+document.getElementById('musicUploadZone').addEventListener('click', () => document.getElementById('admMusicInput').click());
+document.getElementById('admMusicInput').addEventListener('change', async function(e) {
+  const file = e.target.files[0]; if(!file) return;
+  if(file.size > 50*1024*1024) { alert('Файл слишком большой (>50 МБ)'); return; }
+  showToast('Загрузка музыки...');
+  const r = new FileReader();
+  r.onload = async () => {
+    const d = loadConfig(); d.musicName = file.name; d.customMusic = r.result;
+    await saveMediaDB('customMusic', r.result); saveConfig(d);
+    renderMusicPreview(r.result, file.name);
+    if(musicPlaying) stopMusic(); // reload will use new music
+    showToast('Музыка сохранена');
+  };
+  r.readAsDataURL(file); e.target.value='';
+});
+
+document.getElementById('bgUploadZone').addEventListener('click', () => document.getElementById('admBgInput').click());
+document.getElementById('admBgInput').addEventListener('change', async function(e) {
+  const file = e.target.files[0]; if(!file) return;
+  if(file.size > 20*1024*1024) { alert('Файл слишком большой (>20 МБ)'); return; }
+  showToast('Загрузка фона...');
+  const r = new FileReader();
+  r.onload = async () => {
+    const d = loadConfig(); d.customBg = r.result;
+    await saveMediaDB('customBg', r.result); saveConfig(d);
+    applyData(d); renderBgPreview(r.result);
+    showToast('Фон сохранён');
+  };
+  r.readAsDataURL(file); e.target.value='';
+});
+
+document.querySelectorAll('.color-swatch').forEach(sw => { sw.addEventListener('click', function(){ document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('active')); this.classList.add('active'); document.documentElement.style.setProperty('--text-color', this.dataset.color); }); });
+
+/* ===== Timer ===== */
+function updateTimer() {
+  const t = new Date(loadConfig().dateISO); const now=new Date(); let diff=t-now; if(diff<0) diff=0;
+  document.getElementById('tDays').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
+  document.getElementById('tHours').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+  document.getElementById('tMins').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  document.getElementById('tSecs').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+}
+setInterval(updateTimer,1000); updateTimer();
+
+/* ===== Stars ===== */
+(function(){ const c=document.getElementById('stars'); for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';const z=Math.random()*2+1;s.style.cssText=`width:${z}px;height:${z}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${Math.random()*3+2}s;animation-delay:${Math.random()*3}s;opacity:${Math.random()*.5+.2}`;c.appendChild(s);}})();
+
+/* ===== AUDIO ENGINE ===== */
+let audioCtx=null, musicPlaying=false, musicNodes=[], musicInterval=null, customAudioEl=null;
+function initAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }
+function playDing(){ initAudio(); const t=audioCtx.currentTime; [523.25,659.25,783.99,1046.5].forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.15/(i+1),t+.01);g.gain.exponentialRampToValueAtTime(.001,t+1.5+i*.2);o.connect(g).connect(audioCtx.destination);o.start(t+i*.05);o.stop(t+2+i*.2);}); }
+
+const PENT=[196,220,261.63,293.66,329.63,392,440,523.25,587.33];
+const SEQ=[0,2,4,2,5,4,2,0,7,5,4,2,0,2,4,7,5,4,2,0,3,5,7,5,3,2,0,2,4,2,0,-1,-1,-1];
+function playNote(freq,time,dur,vol){ if(!audioCtx||!musicPlaying||freq<=0)return; const o=audioCtx.createOscillator(),g=audioCtx.createGain(),f=audioCtx.createBiquadFilter();o.type='triangle';o.frequency.setValueAtTime(freq,time);f.type='lowpass';f.frequency.setValueAtTime(1200,time);g.gain.setValueAtTime(0,time);g.gain.linearRampToValueAtTime(vol,time+.08);g.gain.setValueAtTime(vol,time+dur*.6);g.gain.exponentialRampToValueAtTime(.001,time+dur);o.connect(f).connect(g).connect(audioCtx.destination);o.start(time);o.stop(time+dur+.05);musicNodes.push(o); }
+
+async function startMusic(){
+  initAudio(); musicPlaying=true;
+  document.getElementById('musicIcon').innerHTML='<path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>';
+  const d = await loadAllData();
+  if(d.customMusic){
+    customAudioEl = new Audio(d.customMusic); customAudioEl.loop=true; customAudioEl.volume=0.6;
+    customAudioEl.play().catch(console.warn); return;
+  }
+  function loop(){ if(!musicPlaying)return; const now=audioCtx.currentTime;
+    const p=audioCtx.createOscillator(),pg=audioCtx.createGain(),pf=audioCtx.createBiquadFilter();p.type='sine';p.frequency.setValueAtTime(98,now);pf.type='lowpass';pf.frequency.setValueAtTime(400,now);pg.gain.setValueAtTime(0,now);pg.gain.linearRampToValueAtTime(.04,now+2);pg.gain.linearRampToValueAtTime(.04,now+6);pg.gain.linearRampToValueAtTime(0,now+8);p.connect(pf).connect(pg).connect(audioCtx.destination);p.start(now);p.stop(now+8);
+    let t=now; for(let i=0;i<SEQ.length;i++){if(SEQ[i]>=0)playNote(PENT[SEQ[i]],t,.6+Math.random()*.3,.08+Math.random()*.04);t+=.55+Math.random()*.2;if(t-now>7.5)break;}
+    const bs=audioCtx.sampleRate*8,buf=audioCtx.createBuffer(1,bs,audioCtx.sampleRate),data=buf.getChannelData(0);for(let i=0;i<bs;i++)data[i]=(Math.random()*2-1)*.008;
+    const n=audioCtx.createBufferSource();n.buffer=buf;const nf=audioCtx.createBiquadFilter();nf.type='bandpass';nf.frequency.setValueAtTime(300+Math.random()*400,now);nf.Q.setValueAtTime(2,now);const ng=audioCtx.createGain();ng.gain.setValueAtTime(0,now);ng.gain.linearRampToValueAtTime(.06,now+3);ng.gain.linearRampToValueAtTime(0,now+8);n.connect(nf).connect(ng).connect(audioCtx.destination);n.start(now);n.stop(now+8);
+    musicInterval=setTimeout(loop,7500);
+  }
+  loop();
+}
+function stopMusic(){ musicPlaying=false; clearTimeout(musicInterval); musicNodes.forEach(n=>{try{n.stop()}catch(e){}}); musicNodes=[]; if(customAudioEl){customAudioEl.pause();customAudioEl=null;} document.getElementById('musicIcon').innerHTML='<path d="M16.5 12A4.5 4.5 0 0 0 21 7.5V2.5L9 4v10l7.5-2.2V12zM9 16V4L2 5.5v11L9 16z"/><path d="M19 19a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/><path d="M5 21a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>'; }
+document.getElementById('musicBtn').addEventListener('click', ()=>{ if(musicPlaying) stopMusic(); else startMusic(); });
+
+/* ===== ENVELOPE ===== */
+let opened=false;
+document.getElementById('envelope').addEventListener('click', function(){
+  if(opened)return; opened=true; playDing();
+  this.classList.add('opened'); document.getElementById('mainContent').classList.add('visible'); document.getElementById('musicBtn').classList.add('visible');
+  setTimeout(()=>startMusic(),600);
+  setTimeout(()=>document.querySelectorAll('.fade-in').forEach((el,i)=>setTimeout(()=>el.classList.add('show'),i*300)),400);
+});
+
+/* ===== INIT ===== */
+(async()=>{ const d=await loadAllData(); applyData(d); })();
+</script>
+</body>
+</html>
